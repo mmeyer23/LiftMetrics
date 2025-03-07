@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useActionState } from 'react';
 import { register } from '../actions/userController';
 

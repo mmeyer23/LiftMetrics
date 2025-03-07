@@ -1,6 +1,7 @@
+import React from 'react';
 import type { Metadata } from 'next';
 import './globals.css';
-import Link from 'next/link';
+import Header from '../components/Header';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,29 +16,12 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <header className='bg-gray-100 shadow-md'>
-          <div className='container mx-auto'>
-            <div className='navbar'>
-              <div className='flex-1'>
-                <Link href='/' className='btn btn-ghost text-xl'>
-                  LiftMetrics
-                </Link>
-              </div>
-              <div className='flex-none'>
-                <ul className='menu menu-horizontal px-1'>
-                  <li>
-                    <Link href='/login'>Log In</Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </header>
+        <Header />
         <main className='container mx-auto p-10'>{children}</main>
         <footer className='text-gray-400 text-center text-xs py-5'>
-            <p>
-                Copywright &copy; {new Date().getFullYear()} - All rights reserved.
-            </p>
+          <p>
+            Copywright &copy; {new Date().getFullYear()} - All rights reserved.
+          </p>
         </footer>
       </body>
     </html>
