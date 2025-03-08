@@ -7,7 +7,6 @@ import { register } from '../actions/userController';
 export default function RegisterForm() {
   const [formState, formAction] = useActionState(register, {});
 
-
   return (
     <form action={formAction} className='max-w-xs mx-auto'>
       <div className='mb-3'>
@@ -36,6 +35,12 @@ export default function RegisterForm() {
             required
           />
         </label>
+
+        {/* Display error for email if it exists */}
+        {formState.errors?.email && (
+          <div className='text-red-600 mt-2'>{formState.errors.email}</div>
+        )}
+
         <div className='validator-hint hidden'>Enter valid email address</div>
       </div>
       <div className='mb-3'>
@@ -77,6 +82,10 @@ export default function RegisterForm() {
         </p>
       </div>
       <button className='btn btn-primary'>Create Account</button>
+      {/* Display any general form errors */}
+      {formState.errors?.form && (
+        <div className='text-red-600 mt-3'>{formState.errors.form}</div>
+      )}
     </form>
   );
 }
