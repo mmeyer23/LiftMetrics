@@ -18,11 +18,18 @@ export default async function Header() {
           <div className='flex-none'>
             <ul className='menu menu-horizontal px-1'>
               {user ? (
-                <li>
-                  <form action={logout} className='btn btn-neutral'>
-                    <button>Log Out</button>
-                  </form>
-                </li>
+                <>
+                  <li className='mr-3'>
+                    <Link href='/new-workout' className='btn btn-primary'>
+                      New Workout
+                    </Link>
+                  </li>
+                  <li>
+                    <form action={logout} className='btn btn-neutral'>
+                      <button>Log Out</button>
+                    </form>
+                  </li>
+                </>
               ) : (
                 <li>
                   <Link href='/login'>Log In</Link>

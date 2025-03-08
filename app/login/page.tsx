@@ -1,19 +1,32 @@
 'use client';
 import React from 'react';
 import { useActionState } from 'react';
-import { login } from '../../actions/userController';
+import { register } from '../../actions/userController'; // Make sure you import the correct action
 
 export default function Page() {
   const initialState = {
     success: false,
     message: '',
+    errors: {}, // Track both backend and frontend errors
   };
-  const [formState, formAction] = useActionState(login, initialState);
-  console.log(formState);
+
+  const [formState, formAction] = useActionState(register, initialState); // Ensure this matches the action (register)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    formAction(formState, formData); // Submit the form data to the backend
+  };
+
   return (
     <>
       <h2 className='text-center text-2xl text-gray-600 mb-5'>Log In</h2>
-      <form action={formAction} className='max-w-xs mx-auto'>
+      <form onSubmit={handleSubmit} className='max-w-xs mx-auto'>
+        {/* Display backend email error */}
+        {formState.errors?.email && (
+          <div className='text-red-600 mb-2'>{formState.errors.email}</div>
+        )}
+
         <div className='mb-3'>
           <label className='input validator'>
             <svg
@@ -40,8 +53,13 @@ export default function Page() {
               required
             />
           </label>
-          <div className='validator-hint hidden'>Enter valid email address</div>
+
+          {/* Display frontend validation error for email */}
+          <div className='validator-hint hidden'>
+            Enter a valid email address
+          </div>
         </div>
+
         <div className='mb-3'>
           <label className='input validator'>
             <svg
@@ -70,6 +88,8 @@ export default function Page() {
               title='Must be more than 8 characters, including number, lowercase letter, uppercase letter'
             />
           </label>
+
+          {/* Display frontend password validation */}
           <p className='validator-hint hidden'>
             Must be more than 8 characters, including
             <br />
@@ -80,7 +100,13 @@ export default function Page() {
             At least one uppercase letter
           </p>
         </div>
-        <button className='btn btn-primary'>Sign In</button>
+
+        <button className='btn btn-primary'>Log In</button>
+
+        {/* Display general form error if any */}
+        {formState.errors?.form && (
+          <div className='text-red-600 mt-3'>{formState.errors.form}</div>
+        )}
       </form>
     </>
   );

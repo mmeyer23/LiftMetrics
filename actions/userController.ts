@@ -66,11 +66,11 @@ export const register = async (
 ): Promise<RegistrationResponse> => {
   const errors: Record<string, string> = {};
 
-  const email = formData.get('email');
-  const password = formData.get('password');
+  const email = formData.email;
+  const password = formData.password;
 
   if (!email || !password) {
-    errors['form'] = 'Email and password are required';
+    errors['form'] = 'Email and password do not match!';
     return { errors };
   }
 
