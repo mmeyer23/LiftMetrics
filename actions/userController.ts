@@ -11,27 +11,32 @@ interface RegistrationResponse {
   errors?: Record<string, string>;
 }
 
-export const login = async function (prevState, formData) {
-  const error = {
-    success: false,
-    message: 'Invalid username or password',
-  };
+export const login = async (
+  prevState,
+  formData: FormData
+): Promise<RegistrationResponse> => {
+  const errors: Record<string, string> = {};
 
-  const ourUser = {
-    email: formData.get('email'),
-    password: formData.get('password'),
-  };
+  const email = formData.get('email') as string | null;
+  const password = formData.get('password') as string | null;
 
-  const collection = await getCollection('users');
-  const user = await collection.findOne({ email: ourUser.email });
-  if (!user) {
-    return error;
+  // Handle null values
+  if (!email || !password) {
+    errors.form = 'Both email and password are required!';
+    return { errors };
   }
 
-  const verified = bcrypt.compareSync(ourUser.password, user.password);
+  const collection = await getCollection('users');
+  const user = await collection.findOne({ email });
+  if (!user) {
+    return { errors };
+  }
+
+  const verified = bcrypt.compareSync(password, user.password);
 
   if (!verified) {
-    return error;
+    errors.form = 'Invalid username or password';
+    return { errors };
   }
 
   //create jwt value
@@ -62,12 +67,12 @@ export const logout = async function () {
 
 export const register = async (
   prevState,
-  formData
+  formData: FormData
 ): Promise<RegistrationResponse> => {
   const errors: Record<string, string> = {};
 
-  const email = formData.email;
-  const password = formData.password;
+  const email = formData.get('email');
+  const password = formData.get('password');
 
   if (!email || !password) {
     errors['form'] = 'Email and password do not match!';
@@ -79,11 +84,12 @@ export const register = async (
 
   if (possibleEmail) {
     errors.email = 'That email is already in use';
+    return { errors };
   }
 
   // hash password
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password as string, 10);
 
     const ourUser = {
       email,

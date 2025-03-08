@@ -1,7 +1,7 @@
 'use client';
-import React from 'react';
+import React, { useTransition } from 'react';
 import { useActionState } from 'react';
-import { register } from '../../actions/userController'; // Make sure you import the correct action
+import { login } from '../../actions/userController'; // Make sure you import the correct action
 
 export default function Page() {
   const initialState = {
@@ -10,12 +10,16 @@ export default function Page() {
     errors: {}, // Track both backend and frontend errors
   };
 
-  const [formState, formAction] = useActionState(register, initialState); // Ensure this matches the action (register)
+  const [formState, formAction] = useActionState(login, initialState); // Ensure this matches the action (register)
+  const [isPending, startTransition] = useTransition(); // Start transition for async actions
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    formAction(formState, formData); // Submit the form data to the backend
+
+    startTransition(() => {
+      formAction(formData);
+    });
   };
 
   return (
