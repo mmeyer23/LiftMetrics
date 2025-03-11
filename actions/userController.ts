@@ -29,6 +29,7 @@ export const login = async (
   const collection = await getCollection('users');
   const user = await collection.findOne({ email });
   if (!user) {
+    errors.form = 'Account with this email does not exist.';
     return { errors };
   }
 
@@ -52,9 +53,10 @@ export const login = async (
   const cookieStore = await cookies();
   cookieStore.set('liftmetrics', ourTokenValue, {
     httpOnly: true,
-    sameSite: 'strict',
+    sameSite: 'lax',
     maxAge: 1800,
-    secure: true,
+    secure: false,
+    path: '/',
   });
   return redirect('/');
 };
@@ -111,9 +113,9 @@ export const register = async (
     const cookieStore = await cookies();
     cookieStore.set('liftmetrics', ourTokenValue, {
       httpOnly: true,
-      sameSite: 'strict',
+      sameSite: 'lax',
       maxAge: 1800,
-      secure: true,
+      secure: false,
     });
 
     return {

@@ -1,6 +1,7 @@
+import React from 'react';
 import RegisterForm from '../components/RegisterForm';
 import { getUserFromCookie } from '../lib/getUser';
-import React from 'react';
+import ExerciseList from '../components/ExerciseList';
 
 export default async function Page() {
   const user = await getUserFromCookie();
@@ -8,7 +9,10 @@ export default async function Page() {
   return (
     <>
       {user ? (
-        <p>Welcome, you are logged in!</p>
+        <>
+          <p>Welcome, you are logged in!</p>
+          <ExerciseList />
+        </>
       ) : (
         <>
           <p className='text-center text-2xl text-gray-600 mb-5'>
