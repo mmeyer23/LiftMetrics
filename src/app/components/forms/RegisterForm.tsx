@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useActionState } from 'react';
-import { register } from '../actions/userController';
+import { register } from '../../../server/actions/userController';
 
 export default function RegisterForm() {
   const [formState, formAction] = useActionState(register, {});

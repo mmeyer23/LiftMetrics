@@ -1,4 +1,4 @@
-import getDatabase from '../../../../lib/db';
+import getDatabase from 'server/utils/db';
 import jwt, { JwtPayload } from 'jsonwebtoken'; // Use JWT for authentication (or replace this with your auth method)
 import { cookies } from 'next/headers';
 import { ObjectId } from 'mongodb';

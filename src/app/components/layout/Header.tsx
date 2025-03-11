@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { getUserFromCookie } from '../lib/getUser';
-import { logout } from '../actions/userController';
+import { getUserFromCookie } from '../../../server/utils/getUser';
+import { logout } from '../../../server/actions/userController';
 
 export default async function Header() {
   const user = await getUserFromCookie();

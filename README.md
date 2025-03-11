@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LiftMetrics
 
-## Getting Started
+LiftMetrics is a web application designed to help users track and save their personal exercise records. You can log in to your account, add, view, update, and delete your personal exercise records, helping you track your fitness progress over time. This application includes account verification, user-specific data storage, and easy-to-use CRUD (Create, Read, Update, Delete) functionality.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **User Authentication**: Secure login system with email and password verification.
+- **Exercise Record Management**: Users can create, read, update, and delete their personal exercise records.
+- **Personalized Records**: Each user has their own list of exercise records, which are saved securely.
+- **Responsive Design**: Built with a focus on responsiveness, allowing you to track your records on any device.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Frontend**:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+  - **Next.js**: React framework for server-side rendering and building the application.
+  - **React**: For building interactive UIs and components.
+  - **Tailwind CSS**: Utility-first CSS framework for styling.
+  - **DaisyUI**: Plugin for Tailwind to provide pre-designed components.
+  - **React Icons**: For incorporating icons into the UI.
 
-## Learn More
+- **Backend**:
 
-To learn more about Next.js, take a look at the following resources:
+  - **MongoDB**: Used for storing user data and exercise records.
+  - **JWT (JSON Web Tokens)**: For user authentication and session management.
+  - **bcrypt**: To hash and verify passwords securely.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Development**:
+  - **TypeScript**: For type safety and better developer experience.
+  - **ESLint**: For ensuring code quality and consistency.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Installation
 
-## Deploy on Vercel
+To run this project locally, follow these steps:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Clone the repository:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   git clone https://github.com/your-username/lift-metrics.git
+   cd lift-metrics
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Set up environment variables:
+
+   ```bash
+   JWT_SECRET=your_jwt_secret_key
+    MONGODB_URI=your_mongodb_connection_string
+   ```
+
+4. Start development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open your browser and navigate to http://localhost:3000 to start using LiftMetrics.
+
+## License
+
+LiftMetrics is licensed under the MIT License. See [LICENSE](LICENSE) for more details.

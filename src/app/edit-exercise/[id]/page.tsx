@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import EditExerciseForm from '../../../components/EditExerciseForm';
+import EditExerciseForm from '../../components/forms/EditExerciseForm';
 
 // Function to fetch the exercise data by ID
 const getExerciseById = async (id: string) => {

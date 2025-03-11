@@ -1,7 +1,7 @@
 'use client';
 import React, { useTransition } from 'react';
 import { useActionState } from 'react';
-import { login } from '../../actions/userController'; // Make sure you import the correct action
+import { login } from '../../server/actions/userController';
 
 export default function Page() {
   const initialState = {

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import RemoveBtn from './RemoveBtn';
+import RemoveBtn from '../buttons/RemoveBtn';
 import Link from 'next/link';
 import { HiPencilAlt } from 'react-icons/hi';
 
