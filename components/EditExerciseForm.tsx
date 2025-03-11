@@ -6,36 +6,32 @@ import { useRouter } from 'next/navigation';
 interface EditExerciseFormProps {
   id: string;
   exerciseName: string;
-  numOfSets: number;
   numOfReps: number;
   weightUsed: string;
-  restTime: string;
+  date: string;
   notes: string;
 }
 
 const EditExerciseForm: React.FC<EditExerciseFormProps> = ({
   id,
   exerciseName,
-  numOfSets,
   numOfReps,
   weightUsed,
-  restTime,
+  date,
   notes,
 }) => {
   const [newExerciseName, setNewExercise] = useState(exerciseName);
-  const [newNumOfSets, setNewNumOfSets] = useState(numOfSets);
   const [newNumOfReps, setNewNumOfReps] = useState(numOfReps);
   const [newWeightUsed, setNewWeightUsed] = useState(weightUsed);
-  const [newRestTime, setNewRestTime] = useState(restTime);
+  const [newDate, setNewDate] = useState(date);
   const [newNotes, setNewNotes] = useState(notes);
 
   const updatedExercise = {
     id,
     exerciseName: newExerciseName,
-    numOfSets: Number(newNumOfSets), // Ensure it's a number
     numOfReps: Number(newNumOfReps), // Ensure it's a number
     weightUsed: newWeightUsed,
-    restTime: newRestTime,
+    date: newDate,
     notes: newNotes,
   };
 
@@ -52,10 +48,9 @@ const EditExerciseForm: React.FC<EditExerciseFormProps> = ({
         },
         body: JSON.stringify({
           newExerciseName,
-          newNumOfSets,
           newNumOfReps,
           newWeightUsed,
-          newRestTime,
+          newDate,
           newNotes,
         }),
       });
@@ -71,7 +66,7 @@ const EditExerciseForm: React.FC<EditExerciseFormProps> = ({
 
   return (
     <>
-      <div>Edit Exercise</div>
+      <div>Edit Personal Record (PR)</div>
       <form onSubmit={handleSubmit} className='max-w-xs mx-auto'>
         <input
           onChange={(e) => setNewExercise(e.target.value)}
@@ -80,18 +75,6 @@ const EditExerciseForm: React.FC<EditExerciseFormProps> = ({
           placeholder='Exercise Name'
           className='input mb-6'
         />
-        <input
-          onChange={(e) => setNewNumOfSets(e.target.valueAsNumber)}
-          value={newNumOfSets}
-          type='number'
-          className='input validator'
-          required
-          placeholder='Number of Sets'
-          min='1'
-          max='20'
-          title='Must be between be 1 to 20'
-        />
-        <p className='validator-hint'>Must be a number</p>
         <input
           onChange={(e) => setNewNumOfReps(e.target.valueAsNumber)}
           value={newNumOfReps}
@@ -112,10 +95,9 @@ const EditExerciseForm: React.FC<EditExerciseFormProps> = ({
           className='input mb-6'
         />
         <input
-          onChange={(e) => setNewRestTime(e.target.value)}
-          value={newRestTime}
-          type='text'
-          placeholder='Rest Time'
+          onChange={(e) => setNewDate(e.target.value)}
+          value={newDate}
+          type='date'
           className='input mb-6'
         />
         <input
@@ -125,7 +107,7 @@ const EditExerciseForm: React.FC<EditExerciseFormProps> = ({
           placeholder='Notes'
           className='input mb-6'
         />
-        <button className='btn btn-primary'>Update Exercise</button>
+        <button className='btn btn-primary'>Update PR</button>
       </form>
     </>
   );

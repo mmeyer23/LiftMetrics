@@ -21,7 +21,7 @@ export default async function Header() {
                 <>
                   <li className='mr-3'>
                     <Link href='/new-exercise' className='btn btn-primary'>
-                      New Exercise Log
+                      Add Personal Record (PR)
                     </Link>
                   </li>
                   <li>

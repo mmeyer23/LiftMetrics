@@ -5,9 +5,8 @@ import { useRouter } from 'next/navigation';
 export default function AddExercise() {
   const [exerciseName, setExerciseName] = useState('');
   const [numOfReps, setNumOfReps] = useState('');
-  const [numOfSets, setNumOfSets] = useState('');
   const [weightUsed, setWeightUsed] = useState('');
-  const [restTime, setRestTime] = useState('');
+  const [date, setDate] = useState('');
   const [notes, setNotes] = useState('');
   const [isLoading, setIsLoading] = useState(false); // Optional: For loading state
   const [error, setError] = useState<string | null>(null); // Optional: For error state
@@ -17,7 +16,7 @@ export default function AddExercise() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!exerciseName || !numOfReps || !numOfSets || !weightUsed || !restTime) {
+    if (!exerciseName || !numOfReps || !weightUsed || !date) {
       alert('Values for all fields, except Notes, are required!');
       return;
     }
@@ -32,10 +31,9 @@ export default function AddExercise() {
         },
         body: JSON.stringify({
           exerciseName,
-          numOfSets,
           numOfReps,
           weightUsed,
-          restTime,
+          date,
           notes,
         }),
       });
@@ -45,11 +43,11 @@ export default function AddExercise() {
         router.push('/');
       } else {
         // Handle the error from the backend
-        throw new Error('Failed to create a new exercise log');
+        throw new Error('Failed to create a new PR');
       }
     } catch (error) {
       console.error(error);
-      setError('There was an error adding the exercise. Please try again.'); // Show error message
+      setError('There was an error adding the PR. Please try again.'); // Show error message
     } finally {
       setIsLoading(false); // Hide loading state after the fetch completes
     }
@@ -58,7 +56,7 @@ export default function AddExercise() {
   return (
     <>
       <h2 className='text-center text-2xl text-gray-600 mb-5'>
-        Add Exercise Info Below
+        Add Personal Record (PR) Below
       </h2>
       {error && <div className='error-message'>{error}</div>}{' '}
       {/* Display error if there's any */}
@@ -70,18 +68,6 @@ export default function AddExercise() {
           placeholder='Exercise Name'
           className='input mb-6'
         />
-        <input
-          onChange={(e) => setNumOfSets(e.target.value)}
-          value={numOfSets}
-          type='number'
-          className='input validator'
-          required
-          placeholder='Number of Sets'
-          min='1'
-          max='20'
-          title='Must be between be 1 to 20'
-        />
-        <p className='validator-hint'>Must be a number</p>
         <input
           onChange={(e) => setNumOfReps(e.target.value)}
           value={numOfReps}
@@ -101,13 +87,8 @@ export default function AddExercise() {
           placeholder='Weight Used'
           className='input mb-6'
         />
-        <input
-          onChange={(e) => setRestTime(e.target.value)}
-          value={restTime}
-          type='text'
-          placeholder='Rest Time'
-          className='input mb-6'
-        />
+        <input onChange={(e) => setDate(e.target.value)}
+          value={date} type="date" className='input mb-6'/>
         <input
           onChange={(e) => setNotes(e.target.value)}
           value={notes}
@@ -116,7 +97,7 @@ export default function AddExercise() {
           className='input mb-6'
         />
         <button type='submit' className='btn btn-primary' disabled={isLoading}>
-          {isLoading ? 'Adding...' : 'Add Exercise'}
+          {isLoading ? 'Adding...' : 'Add PR'}
         </button>
       </form>
     </>

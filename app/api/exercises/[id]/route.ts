@@ -31,10 +31,9 @@ export async function PUT(req, { params }) {
   const { id } = await params;
   const {
     newExerciseName: exerciseName,
-    newNumOfSets: numOfSets,
     newNumOfReps: numOfReps,
     newWeightUsed: weightUsed,
-    newRestTime: restTime,
+    newDate: date,
     newNotes: notes,
   } = await req.json();
 
@@ -86,10 +85,9 @@ export async function PUT(req, { params }) {
     {
       $set: {
         exerciseName,
-        numOfSets,
         numOfReps,
         weightUsed,
-        restTime,
+        date,
         notes,
       },
     }

@@ -38,8 +38,7 @@ export async function POST(req) {
   }
 
   // Destructure the request body
-  const { exerciseName, numOfSets, numOfReps, weightUsed, restTime, notes } =
-    await req.json();
+  const { exerciseName, numOfReps, weightUsed, date, notes } = await req.json();
 
   // Get the database instance
   const db = await getDatabase();
@@ -65,10 +64,9 @@ export async function POST(req) {
   // Create the new exercise object, including the user ID
   const newExercise = {
     exerciseName,
-    numOfSets,
     numOfReps,
     weightUsed,
-    restTime,
+    date,
     notes,
     userId, // Associate this exercise with the logged-in user
   };

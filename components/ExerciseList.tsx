@@ -9,10 +9,9 @@ import { HiPencilAlt } from 'react-icons/hi';
 type Exercise = {
   _id: string;
   exerciseName: string;
-  numOfSets: number;
   numOfReps: number;
   weightUsed: number;
-  restTime: number;
+  date: string;
   notes: string;
 };
 
@@ -78,10 +77,9 @@ export default function ExerciseList() {
         >
           <div>
             <h2 className='font-bold text-3xl mb-2'>{e.exerciseName}</h2>
-            <h2 className='font-bold'>{e.numOfSets} Sets</h2>
             <h2 className='font-bold'>{e.numOfReps} Reps</h2>
             <h2 className='font-bold'>Weight Used: {e.weightUsed}</h2>
-            <h2 className='font-bold'> Rest Time: {e.restTime}</h2>
+            <h2 className='font-bold'> Date: {e.date}</h2>
             <h2 className='font-bold'>Notes: {e.notes}</h2>
           </div>
           <div className='flex gap-2'>

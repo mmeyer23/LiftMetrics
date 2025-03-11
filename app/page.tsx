@@ -11,6 +11,7 @@ export default async function Page() {
       {user ? (
         <>
           <p>Welcome, you are logged in!</p>
+          <p>Here are your saved PRs:</p>
           <ExerciseList />
         </>
       ) : (

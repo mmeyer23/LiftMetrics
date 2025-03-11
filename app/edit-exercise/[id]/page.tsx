@@ -67,8 +67,7 @@ export default function EditExercise({
   }
 
   // Destructure the data from the response
-  const { exerciseName, numOfSets, numOfReps, weightUsed, restTime, notes } =
-    exercise;
+  const { exerciseName, numOfReps, weightUsed, date, notes } = exercise;
 
   console.log(JSON.stringify(exercise, null, 2));
 
@@ -76,10 +75,9 @@ export default function EditExercise({
     <EditExerciseForm
       id={id} // Pass the id
       exerciseName={exerciseName}
-      numOfSets={numOfSets}
       numOfReps={numOfReps}
       weightUsed={weightUsed}
-      restTime={restTime}
+      date={date}
       notes={notes}
     />
   );
