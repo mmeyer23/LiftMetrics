@@ -1,5 +1,15 @@
 # LiftMetrics
 
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=json-web-tokens&logoColor=white)
+![Bcrypt](https://img.shields.io/badge/Bcrypt-FF5C00?style=for-the-badge&logo=npm&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![DaisyUI](https://img.shields.io/badge/DaisyUI-FF6600?style=for-the-badge&logo=daisyui&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white)
+
 LiftMetrics is a web application designed to help users track and save their personal exercise records. You can log in to your account, add, view, update, and delete your personal exercise records, helping you track your fitness progress over time. This application includes account verification, user-specific data storage, and easy-to-use CRUD (Create, Read, Update, Delete) functionality.
 
 ## Features
