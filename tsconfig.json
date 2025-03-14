@@ -31,7 +31,7 @@
   },
   "include": [
     "src/**/*.ts", // Includes all TypeScript files under src
-    "src/server/types/**/*.d.ts" // Specifically includes all .d.ts files in the src/types folder
+    "src/types/**/*.d.ts" // Specifically includes all .d.ts files in the src/types folder
     ,
     ".next/types/**/*.ts"
   ],

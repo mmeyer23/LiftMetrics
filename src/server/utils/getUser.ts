@@ -1,12 +1,16 @@
 import { cookies } from 'next/headers';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+import { DecodedToken } from 'types/userTypes';
 
-export async function getUserFromCookie() {
+export async function getUserFromCookie(): Promise<DecodedToken | null> {
   const cookieStore = await cookies();
+  console.log('Cookies on the server:', cookieStore);
   const tokenCookie = cookieStore.get('liftmetrics');
+  console.log('Token from cookie:', tokenCookie);
 
-  // If tokenCookie is not found or its value is not a string, return null
+  
   if (!tokenCookie || typeof tokenCookie.value !== 'string') {
+    console.log('No token found');
     return null;
   }
 
@@ -17,12 +21,12 @@ export async function getUserFromCookie() {
       throw new Error('JWT_SECRET is not defined in environment variables');
     }
 
-    // Decode the token
-    const decoded = jwt.verify(tokenCookie.value, secret) as JwtPayload;
+  
+    const decoded = jwt.verify(tokenCookie.value, secret) as DecodedToken;
 
     return decoded;
   } catch (error) {
-    console.error('Error decoding JWT:', error.message);
+    console.error('Error decoding JWT:', error);
     return null;
   }
 }

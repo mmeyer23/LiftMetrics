@@ -2,23 +2,34 @@
 import React, { useTransition } from 'react';
 import { useActionState } from 'react';
 import { login } from '../../server/actions/userController';
+import { LoginFormState, LoginFormData } from '../../types/formTypes';
 
 export default function Page() {
-  const initialState = {
+  const initialState: LoginFormState = {
     success: false,
     message: '',
-    errors: {}, // Track both backend and frontend errors
+    errors: {},
   };
 
-  const [formState, formAction] = useActionState(login, initialState); // Ensure this matches the action (register)
-  const [isPending, startTransition] = useTransition(); // Start transition for async actions
+  const [formState, formAction] = useActionState(login, initialState);
+  const [isPending, startTransition] = useTransition();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const formData = new FormData(e.target as HTMLFormElement);
 
+    const loginData: LoginFormData = {
+      email: formData.get('email')?.toString() || '',
+      password: formData.get('password')?.toString() || '',
+    };
+
+    const formDataInstance = new FormData();
+    formDataInstance.append('email', loginData.email);
+    formDataInstance.append('password', loginData.password);
+
     startTransition(() => {
-      formAction(formData);
+      formAction(formDataInstance);
     });
   };
 
@@ -105,7 +116,13 @@ export default function Page() {
           </p>
         </div>
 
-        <button className='btn btn-primary'>Log In</button>
+        <button
+          className='btn bg-blue-400 text-white 
+                        hover:bg-blue-600 hover:scale-105 transition-all duration-200
+                        active:scale-95 active:bg-blue-700'
+        >
+          Log In
+        </button>
 
         {/* Display general form error if any */}
         {formState.errors?.form && (

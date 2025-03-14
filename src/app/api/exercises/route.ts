@@ -1,7 +1,7 @@
 import getDatabase from 'server/utils/db';
 import { cookies } from 'next/headers';
-import jwt, { JwtPayload } from 'jsonwebtoken'; // Use JWT for authentication (or replace this with your auth method)
-import { ObjectId } from 'mongodb'; // Import ObjectId from mongodb
+import jwt, { JwtPayload } from 'jsonwebtoken'; 
+import { ObjectId } from 'mongodb'; 
 
 async function getUserFromToken(cookieStore) {
   const token = cookieStore.get('liftmetrics')?.value;
@@ -37,16 +37,12 @@ export async function POST(req) {
     });
   }
 
-  // Destructure the request body
   const { exerciseName, numOfReps, weightUsed, date, notes } = await req.json();
 
-  // Get the database instance
   const db = await getDatabase();
 
-  // Connect to the "exercises" collection
   const collection = await db.collection('exercises');
 
-  // Check if the exercise already exists for the user
   const existingExercise = await collection.findOne({
     exerciseName,
     userId,
@@ -56,25 +52,22 @@ export async function POST(req) {
     return new Response(
       JSON.stringify({ message: 'Exercise already exists for this user' }),
       {
-        status: 409, // Conflict
+        status: 409,
       }
     );
   }
 
-  // Create the new exercise object, including the user ID
   const newExercise = {
     exerciseName,
     numOfReps,
     weightUsed,
     date,
     notes,
-    userId, // Associate this exercise with the logged-in user
+    userId,
   };
 
-  // Insert the new exercise document into the collection
   const result = await collection.insertOne(newExercise);
 
-  // Respond with success or failure message
   if (result.acknowledged) {
     return new Response(
       JSON.stringify({ message: 'Exercise added successfully!' }),
@@ -102,7 +95,6 @@ export async function GET(req) {
   }
   const db = await getDatabase();
 
-  // Connect to the "exercises" collection
   const collection = await db.collection('exercises');
 
   try {
@@ -144,31 +136,28 @@ export async function DELETE(req) {
     );
   }
 
-  // Convert the string exerciseId to an ObjectId
   let objectId;
   try {
-    objectId = new ObjectId(exerciseId); // Convert string to ObjectId
+    objectId = new ObjectId(exerciseId);
   } catch (error) {
     return new Response(
       JSON.stringify({ message: 'Invalid exercise ID format' }),
       { status: 400 }
     );
   }
-  // Get the database instance
+
   const db = await getDatabase();
 
-  // Connect to the "exercises" collection
   const collection = await db.collection('exercises');
 
   try {
-    // Find the exercise to ensure it belongs to the user
     const exercise = await collection.findOne({ _id: objectId });
     if (!exercise) {
       return new Response(JSON.stringify({ message: 'Exercise not found' }), {
         status: 404,
       });
     }
-    // Check if the exercise belongs to the logged-in user
+
     if (exercise.userId !== userId) {
       return new Response(
         JSON.stringify({ message: 'Unauthorized to delete this exercise' }),
@@ -177,7 +166,7 @@ export async function DELETE(req) {
         }
       );
     }
-    // Proceed to delete the exercise from the database
+
     const result = await collection.deleteOne({ _id: objectId });
 
     if (result.deletedCount === 1) {

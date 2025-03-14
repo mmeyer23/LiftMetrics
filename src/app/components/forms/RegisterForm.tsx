@@ -3,9 +3,13 @@
 import React from 'react';
 import { useActionState } from 'react';
 import { register } from '../../../server/actions/userController';
+import { RegisterFormState, RegisterAction } from '../../../types/formTypes';
 
 export default function RegisterForm() {
-  const [formState, formAction] = useActionState(register, {});
+  const [formState, formAction] = useActionState<RegisterFormState, FormData>(
+    register as RegisterAction,
+    {}
+  );
 
   return (
     <form action={formAction} className='max-w-xs mx-auto'>
@@ -81,7 +85,13 @@ export default function RegisterForm() {
           At least one uppercase letter
         </p>
       </div>
-      <button className='btn btn-primary'>Create Account</button>
+      <button
+        className='btn bg-blue-400 text-white 
+                        hover:bg-blue-600 hover:scale-105 transition-all duration-200
+                        active:scale-95 active:bg-blue-700'
+      >
+        Create Account
+      </button>
       {/* Display any general form errors */}
       {formState.errors?.form && (
         <div className='text-red-600 mt-3'>{formState.errors.form}</div>

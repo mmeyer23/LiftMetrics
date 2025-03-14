@@ -3,7 +3,6 @@ import jwt, { JwtPayload } from 'jsonwebtoken'; // Use JWT for authentication (o
 import { cookies } from 'next/headers';
 import { ObjectId } from 'mongodb';
 
-// Helper function to extract and validate the user from the token
 async function getUserFromToken(cookieStore) {
   const token = cookieStore.get('liftmetrics')?.value;
   if (!token) {
@@ -26,7 +25,6 @@ async function getUserFromToken(cookieStore) {
   }
 }
 
-// PUT request handler for updating exercise data
 export async function PUT(req, { params }) {
   const { id } = await params;
   const {
@@ -37,7 +35,6 @@ export async function PUT(req, { params }) {
     newNotes: notes,
   } = await req.json();
 
-  // Get cookie store and extract user from token
   const cookieStore = await cookies();
   let userId;
   try {
@@ -57,11 +54,10 @@ export async function PUT(req, { params }) {
       { status: 400 }
     );
   }
-  // Get the database instance and the exercises collection
+
   const db = await getDatabase();
   const collection = await db.collection('exercises');
 
-  // Check if the exercise exists in the database
   const exercise = await collection.findOne({ _id: objectId });
   if (!exercise) {
     return new Response(JSON.stringify({ message: 'Exercise not found' }), {
@@ -69,7 +65,6 @@ export async function PUT(req, { params }) {
     });
   }
 
-  // Ensure that the user is authorized to update this exercise
   if (exercise.userId !== userId) {
     return new Response(
       JSON.stringify({ message: 'Unauthorized to update this exercise' }),
@@ -79,7 +74,6 @@ export async function PUT(req, { params }) {
     );
   }
 
-  // Perform the update operation
   const result = await collection.updateOne(
     { _id: objectId },
     {
@@ -93,7 +87,6 @@ export async function PUT(req, { params }) {
     }
   );
 
-  // Return a response based on the result of the update operation
   if (result.modifiedCount === 1) {
     return new Response(
       JSON.stringify({ message: 'Exercise updated successfully!' }),
@@ -111,12 +104,10 @@ export async function PUT(req, { params }) {
   }
 }
 
-// GET request handler for fetching an exercise by ID
 export async function GET(req, { params }) {
   const { id } = await params;
   console.log('Exercise ID:' + id);
 
-  // Get cookie store and extract user from token
   const cookieStore = await cookies();
   let userId;
   try {
@@ -137,21 +128,18 @@ export async function GET(req, { params }) {
     );
   }
 
-  // Get the database instance and the exercises collection
   const db = await getDatabase();
   const collection = await db.collection('exercises');
 
-  // Retrieve the exercise from the database
   const exercise = await collection.findOne({ _id: objectId });
 
   if (!exercise) {
-    console.log('No exercise found for ID:', id); // Add this line
+    console.log('No exercise found for ID:', id);
     return new Response(JSON.stringify({ message: 'Exercise not found' }), {
       status: 404,
     });
   }
 
-  // Ensure that the exercise belongs to the authenticated user
   if (exercise.userId !== userId) {
     return new Response(
       JSON.stringify({ message: 'Unauthorized access to this exercise' }),
@@ -161,7 +149,6 @@ export async function GET(req, { params }) {
     );
   }
 
-  // Return the exercise data
   return new Response(JSON.stringify({ exercise }), {
     status: 200,
   });

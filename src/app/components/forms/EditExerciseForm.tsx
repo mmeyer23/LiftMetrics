@@ -2,15 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
-interface EditExerciseFormProps {
-  id: string;
-  exerciseName: string;
-  numOfReps: number;
-  weightUsed: string;
-  date: string;
-  notes: string;
-}
+import { EditExerciseFormProps } from '../../../types/exerciseTypes';
 
 const EditExerciseForm: React.FC<EditExerciseFormProps> = ({
   id,
@@ -20,24 +12,15 @@ const EditExerciseForm: React.FC<EditExerciseFormProps> = ({
   date,
   notes,
 }) => {
-  const [newExerciseName, setNewExercise] = useState(exerciseName);
-  const [newNumOfReps, setNewNumOfReps] = useState(numOfReps);
-  const [newWeightUsed, setNewWeightUsed] = useState(weightUsed);
-  const [newDate, setNewDate] = useState(date);
-  const [newNotes, setNewNotes] = useState(notes);
-
-  const updatedExercise = {
-    id,
-    exerciseName: newExerciseName,
-    numOfReps: Number(newNumOfReps), // Ensure it's a number
-    weightUsed: newWeightUsed,
-    date: newDate,
-    notes: newNotes,
-  };
+  const [newExerciseName, setNewExercise] = useState<string>(exerciseName);
+  const [newNumOfReps, setNewNumOfReps] = useState<number>(numOfReps);
+  const [newWeightUsed, setNewWeightUsed] = useState<string>(weightUsed);
+  const [newDate, setNewDate] = useState<string>(date);
+  const [newNotes, setNewNotes] = useState<string>(notes);
 
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -82,8 +65,8 @@ const EditExerciseForm: React.FC<EditExerciseFormProps> = ({
           className='input validator'
           required
           placeholder='Number of Repetitions'
-          min='1'
-          max='200'
+          min={1}
+          max={200}
           title='Must be between be 1 to 200'
         />
         <p className='validator-hint'>Must be a number</p>
@@ -107,7 +90,13 @@ const EditExerciseForm: React.FC<EditExerciseFormProps> = ({
           placeholder='Notes'
           className='input mb-6'
         />
-        <button className='btn btn-primary'>Update PR</button>
+        <button
+          className='btn bg-blue-400 text-white 
+                        hover:bg-blue-600 hover:scale-105 transition-all duration-200
+                        active:scale-95 active:bg-blue-700'
+        >
+          Update PR
+        </button>
       </form>
     </>
   );

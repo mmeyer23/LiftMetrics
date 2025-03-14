@@ -5,14 +5,10 @@ import bcrypt from 'bcrypt';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import { redirect } from 'next/navigation';
-
-interface RegistrationResponse {
-  success?: boolean;
-  errors?: Record<string, string>;
-}
+import { RegistrationResponse } from 'types/formTypes';
 
 export const login = async (
-  prevState,
+  prevState: any,
   formData: FormData
 ): Promise<RegistrationResponse> => {
   const errors: Record<string, string> = {};
@@ -20,7 +16,7 @@ export const login = async (
   const email = formData.get('email') as string | null;
   const password = formData.get('password') as string | null;
 
-  // Handle null values
+
   if (!email || !password) {
     errors.form = 'Both email and password are required!';
     return { errors };
@@ -40,7 +36,7 @@ export const login = async (
     return { errors };
   }
 
-  //create jwt value
+ 
   const jwtSecret = process.env.JWT_SECRET;
   if (!jwtSecret) {
     throw new Error('JWT_SECRET not defined in environent variables');
@@ -61,20 +57,20 @@ export const login = async (
   return redirect('/');
 };
 
-export const logout = async function () {
+export const logout = async function (): Promise<void> {
   const cookieStore = await cookies();
   cookieStore.delete('liftmetrics');
   redirect('/');
 };
 
 export const register = async (
-  prevState,
+  prevState: any,
   formData: FormData
 ): Promise<RegistrationResponse> => {
   const errors: Record<string, string> = {};
 
-  const email = formData.get('email');
-  const password = formData.get('password');
+  const email = formData.get('email') as string | null;
+  const password = formData.get('password') as string | null;
 
   if (!email || !password) {
     errors['form'] = 'Email and password do not match!';
@@ -89,7 +85,7 @@ export const register = async (
     return { errors };
   }
 
-  // hash password
+
   try {
     const hashedPassword = await bcrypt.hash(password as string, 10);
 

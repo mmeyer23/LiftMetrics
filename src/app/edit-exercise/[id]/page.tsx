@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import EditExerciseForm from '../../components/forms/EditExerciseForm';
+import { ExerciseResponse, GetExerciseResponse } from '../../../types/exerciseTypes';
 
-// Function to fetch the exercise data by ID
-const getExerciseById = async (id: string) => {
+
+const getExerciseById = async (id: string): Promise<ExerciseResponse | null> => {
   try {
     const res = await fetch(`http://localhost:3000/api/exercises/${id}`, {
       cache: 'no-store',
@@ -13,34 +14,32 @@ const getExerciseById = async (id: string) => {
     if (!res.ok) {
       throw new Error('Failed to fetch exercise');
     }
+    const data: GetExerciseResponse = await res.json();
+    console.log('EXERCISE DATA:', JSON.stringify(data, null, 2));
 
-    return res.json();
+    return data.exercise || null;
   } catch (error) {
     console.log(error);
     return null;
   }
 };
 
-export default function EditExercise({
+const EditExercise: React.FC<{ params: Promise<{ id: string }> }> = ({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const [exercise, setExercise] = useState<any>(null); // Default to null
+}) => {
+  const [exercise, setExercise] = useState<any>(null); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Unwrap params using React.use() before accessing id
   const { id } = React.use(params);
 
-  // Fetch exercise data when the component mounts
   useEffect(() => {
     const fetchExercise = async () => {
       try {
-        const data = await getExerciseById(id); // Directly access `id`
-        console.log('DATA:' + data); // Log raw response data
-        if (data && data.exercise) {
-          setExercise(data.exercise);
+        const data = await getExerciseById(id); 
+        console.log('DATA:' + data); 
+        if (data) {
+          setExercise(data);
         } else {
           setError('Failed to load exercise data');
         }
@@ -52,7 +51,7 @@ export default function EditExercise({
     };
 
     fetchExercise();
-  }, [id]); // Depend on `id` to refetch if it changes
+  }, [id]); 
 
   if (loading) {
     return <div>Loading...</div>;
@@ -66,14 +65,14 @@ export default function EditExercise({
     return <div>No exercise data available.</div>;
   }
 
-  // Destructure the data from the response
+
   const { exerciseName, numOfReps, weightUsed, date, notes } = exercise;
 
   console.log(JSON.stringify(exercise, null, 2));
 
   return (
     <EditExerciseForm
-      id={id} // Pass the id
+      id={id} 
       exerciseName={exerciseName}
       numOfReps={numOfReps}
       weightUsed={weightUsed}
@@ -81,4 +80,6 @@ export default function EditExercise({
       notes={notes}
     />
   );
-}
+};
+
+export default EditExercise;

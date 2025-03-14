@@ -2,9 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 import { getUserFromCookie } from '../../../server/utils/getUser';
 import { logout } from '../../../server/actions/userController';
+import { User } from '../../../types/userTypes';
 
 export default async function Header() {
-  const user = await getUserFromCookie();
+  const user: User | null = await getUserFromCookie();
 
   return (
     <header className='bg-gray-100 shadow-md'>
@@ -20,12 +21,22 @@ export default async function Header() {
               {user ? (
                 <>
                   <li className='mr-3'>
-                    <Link href='/new-exercise' className='btn btn-primary'>
+                    <Link
+                      href='/new-exercise'
+                      className='btn bg-blue-400 text-white 
+                        hover:bg-blue-600 hover:scale-105 transition-all duration-200
+                        active:scale-95 active:bg-blue-700'
+                    >
                       Add Personal Record (PR)
                     </Link>
                   </li>
                   <li>
-                    <form action={logout} className='btn btn-neutral'>
+                    <form
+                      action={logout}
+                      className='btn bg-gray-500 text-white 
+                        hover:bg-gray-800 hover:scale-105 transition-all duration-200
+                        active:scale-95 active:bg-gray-900'
+                    >
                       <button>Log Out</button>
                     </form>
                   </li>

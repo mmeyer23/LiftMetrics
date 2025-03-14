@@ -4,16 +4,7 @@ import React, { useEffect, useState } from 'react';
 import RemoveBtn from '../buttons/RemoveBtn';
 import Link from 'next/link';
 import { HiPencilAlt } from 'react-icons/hi';
-
-// Define the type for exercises
-type Exercise = {
-  _id: string;
-  exerciseName: string;
-  numOfReps: number;
-  weightUsed: number;
-  date: string;
-  notes: string;
-};
+import { Exercise, GetExerciseResponse } from '../../../types/exerciseTypes';
 
 const getExercises = async (): Promise<Exercise[]> => {
   try {
@@ -22,13 +13,10 @@ const getExercises = async (): Promise<Exercise[]> => {
       credentials: 'include',
     });
 
-    // For debugging
-    console.log('Response Status:', res.status);
-
     if (!res.ok) {
       throw new Error(`Failed to fetch exercises, Status: ${res.status}`);
     }
-    const data = await res.json();
+    const data: GetExerciseResponse = await res.json();
     console.log('Fetched Exercises:', data);
     return data.exercises || [];
   } catch (error) {
@@ -37,33 +25,31 @@ const getExercises = async (): Promise<Exercise[]> => {
   }
 };
 
-export default function ExerciseList() {
-  const [exercises, setExercises] = useState<Exercise[]>([]); // State with type Exercise[]
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState<string | null>(null); // Error state
+const ExerciseList: React.FC = () => {
+  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchExercises = async () => {
       try {
-        setLoading(true); // Set loading state before the fetch request
-        const fetchedExercises = await getExercises(); // Get exercises
-        setExercises(fetchedExercises); // Set exercises in state
+        setLoading(true);
+        const fetchedExercises = await getExercises();
+        setExercises(fetchedExercises);
       } catch (err) {
-        setError('Failed to load exercises'); // Set error state if an error occurs
+        setError('Failed to load exercises');
       } finally {
-        setLoading(false); // Set loading state to false after fetching
+        setLoading(false);
       }
     };
 
-    fetchExercises(); // Call fetchExercises when component mounts
-  }, []); // Empty dependency array means this effect will run once on mount
+    fetchExercises();
+  }, []);
 
-  // If loading, show a loading message
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  // If there's an error, show an error message
   if (error) {
     return <div>{error}</div>;
   }
@@ -77,19 +63,33 @@ export default function ExerciseList() {
         >
           <div>
             <h2 className='font-bold text-3xl mb-2'>{e.exerciseName}</h2>
-            <h2 className='font-bold'>{e.numOfReps} Reps</h2>
-            <h2 className='font-bold'>Weight Used: {e.weightUsed}</h2>
-            <h2 className='font-bold'> Date: {e.date}</h2>
-            <h2 className='font-bold'>Notes: {e.notes}</h2>
+            <h2>
+              <span className='font-bold'>Reps: </span>
+              {e.numOfReps}
+            </h2>
+            <h2>
+              <span className='font-bold'>Weight Used:</span> {e.weightUsed}
+            </h2>
+            <h2>
+              <span className='font-bold'>Date:</span> {e.date}
+            </h2>
+            <h2>
+              <span className='font-bold'>Notes:</span> {e.notes}
+            </h2>
           </div>
           <div className='flex gap-2'>
             <RemoveBtn id={e._id} />
             <Link href={`/edit-exercise/${e._id}`}>
-              <HiPencilAlt size={24} />
+              <HiPencilAlt
+                size={24}
+                className='text-blue-400 hover:text-blue-600 hover:scale-110 transition-all duration-100 cursor-pointer'
+              />
             </Link>
           </div>
         </div>
       ))}
     </>
   );
-}
+};
+
+export default ExerciseList;

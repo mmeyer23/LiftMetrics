@@ -8,8 +8,8 @@ export default function AddExercise() {
   const [weightUsed, setWeightUsed] = useState('');
   const [date, setDate] = useState('');
   const [notes, setNotes] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // Optional: For loading state
-  const [error, setError] = useState<string | null>(null); // Optional: For error state
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -21,7 +21,7 @@ export default function AddExercise() {
       return;
     }
 
-    setIsLoading(true); // Show loading state
+    setIsLoading(true);
 
     try {
       const res = await fetch('http://localhost:3000/api/exercises', {
@@ -39,17 +39,15 @@ export default function AddExercise() {
       });
 
       if (res.ok) {
-        // Redirect to the homepage if successful
         router.push('/');
       } else {
-        // Handle the error from the backend
         throw new Error('Failed to create a new PR');
       }
     } catch (error) {
       console.error(error);
-      setError('There was an error adding the PR. Please try again.'); // Show error message
+      setError('There was an error adding the PR. Please try again.');
     } finally {
-      setIsLoading(false); // Hide loading state after the fetch completes
+      setIsLoading(false);
     }
   };
 
@@ -87,8 +85,12 @@ export default function AddExercise() {
           placeholder='Weight Used'
           className='input mb-6'
         />
-        <input onChange={(e) => setDate(e.target.value)}
-          value={date} type="date" className='input mb-6'/>
+        <input
+          onChange={(e) => setDate(e.target.value)}
+          value={date}
+          type='date'
+          className='input mb-6'
+        />
         <input
           onChange={(e) => setNotes(e.target.value)}
           value={notes}
@@ -96,7 +98,13 @@ export default function AddExercise() {
           placeholder='Notes'
           className='input mb-6'
         />
-        <button type='submit' className='btn btn-primary' disabled={isLoading}>
+        <button
+          type='submit'
+          className='btn bg-blue-400 text-white 
+                        hover:bg-blue-600 hover:scale-105 transition-all duration-200
+                        active:scale-95 active:bg-blue-700'
+          disabled={isLoading}
+        >
           {isLoading ? 'Adding...' : 'Add PR'}
         </button>
       </form>
