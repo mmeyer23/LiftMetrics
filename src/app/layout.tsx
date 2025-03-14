@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import '../styles/globals.css';
 import Header from './components/layout/Header';
+import Head from 'next/head';
 
 export const metadata: Metadata = {
   title: 'LiftMetrics',
@@ -15,6 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
+      <Head>
+        <link rel='icon' type='image/png' href='/liftMetricsLogo.png' />
+      </Head>
       <body>
         <Header />
         <main className='container mx-auto p-10'>{children}</main>
